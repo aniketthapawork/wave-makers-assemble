@@ -1,10 +1,14 @@
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, MapPin, Clock, Users, ArrowRight } from 'lucide-react';
+import { Calendar, MapPin, Clock, Users, ArrowRight, ArrowLeft } from 'lucide-react';
+import EventRegistrationForm from '@/components/EventRegistrationForm';
 
 const Events = () => {
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+
   const upcomingEvents = [
     {
       title: "Beach Yoga + Cleanup",
@@ -88,28 +92,54 @@ const Events = () => {
     return typeObj ? typeObj.color : "bg-gray-500";
   };
 
+  if (selectedEvent) {
+    return (
+      <div className="min-h-screen ocean-wave-bg section-spacing">
+        <div className="container-custom">
+          <div className="mb-8">
+            <Button 
+              variant="outline" 
+              onClick={() => setSelectedEvent(null)}
+              className="mb-6 hover:bg-emerald-50 border-emerald-200"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Events
+            </Button>
+          </div>
+          <EventRegistrationForm event={selectedEvent} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="ocean-gradient py-20">
-        <div className="container mx-auto px-4 text-center text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 font-playfair">Upcoming Events</h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-8">
-            Join our community events and be part of the change you want to see in our oceans.
-          </p>
-          <div className="flex items-center justify-center space-x-2 text-lg">
-            <Calendar className="h-6 w-6 text-wave-300" />
-            <span>All events are open to volunteers of all experience levels</span>
+      <section className="environmental-gradient section-spacing">
+        <div className="container-custom text-center text-white">
+          <div className="slide-up">
+            <Badge className="bg-white/20 text-white mb-6 px-6 py-3 text-lg font-semibold">
+              Join the Movement
+            </Badge>
+            <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">Upcoming Events</h1>
+            <p className="text-xl md:text-2xl max-w-4xl mx-auto mb-12 leading-relaxed">
+              Join our community events and be part of the change you want to see in our oceans. 
+              Every event is an opportunity to learn, contribute, and connect.
+            </p>
+            <div className="flex items-center justify-center space-x-2 text-lg floating-animation">
+              <Calendar className="h-6 w-6 text-cyan-300" />
+              <span>All events welcome volunteers of all experience levels</span>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Event Categories */}
-      <section className="py-12 bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-4">
+      <section className="py-12 bg-white border-b border-emerald-100">
+        <div className="container-custom">
+          <div className="flex flex-wrap justify-center gap-4 stagger-fade-in">
             {eventTypes.map((type, index) => (
-              <Badge key={index} className={`${type.color} text-white px-4 py-2 text-sm`}>
+              <Badge key={index} className={`${type.color} text-white px-6 py-3 text-sm font-semibold`}>
                 {type.type}
               </Badge>
             ))}
@@ -118,57 +148,68 @@ const Events = () => {
       </section>
 
       {/* Upcoming Events */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-4 font-playfair text-gray-900">Upcoming Events</h2>
-          <p className="text-center text-gray-600 mb-12 text-lg">Mark your calendars and join us for these amazing events</p>
+      <section className="section-spacing ocean-wave-bg">
+        <div className="container-custom">
+          <div className="text-center mb-16 slide-up">
+            <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+              Upcoming
+              <span className="block eco-text-gradient">Events</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Mark your calendars and join us for these amazing events across India's coastlines.
+            </p>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-fade-in">
             {upcomingEvents.map((event, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                <div className="relative h-48">
+              <Card key={index} className="overflow-hidden hover-lift card-glow bg-white/80 backdrop-blur-sm border-0">
+                <div className="relative h-56">
                   <img 
                     src={event.image} 
                     alt={event.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   />
-                  <Badge className={`absolute top-4 left-4 ${getTypeColor(event.type)} text-white`}>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                  <Badge className={`absolute top-4 left-4 ${getTypeColor(event.type)} text-white font-semibold`}>
                     {event.type}
                   </Badge>
-                  <Badge className="absolute top-4 right-4 bg-white text-gray-900">
+                  <Badge className="absolute top-4 right-4 bg-white/90 text-gray-900 font-semibold">
                     {event.registration}
                   </Badge>
                 </div>
-                <CardHeader>
-                  <CardTitle className="text-xl text-gray-900">{event.title}</CardTitle>
-                  <CardDescription className="text-gray-600">{event.description}</CardDescription>
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-xl text-gray-900 leading-tight">{event.title}</CardTitle>
+                  <CardDescription className="text-gray-600 leading-relaxed">{event.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center space-x-3">
-                      <Calendar className="h-4 w-4 text-ocean-600" />
+                      <Calendar className="h-5 w-5 text-emerald-600" />
                       <span className="text-gray-700 font-medium">{event.date}</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <Clock className="h-4 w-4 text-ocean-600" />
+                      <Clock className="h-5 w-5 text-emerald-600" />
                       <span className="text-gray-700">{event.time}</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <MapPin className="h-4 w-4 text-ocean-600" />
+                      <MapPin className="h-5 w-5 text-emerald-600" />
                       <span className="text-gray-700">{event.location}</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <Users className="h-4 w-4 text-ocean-600" />
-                      <span className="text-gray-700">{event.spots}</span>
+                      <Users className="h-5 w-5 text-red-500" />
+                      <span className="text-red-600 font-medium">{event.spots}</span>
                     </div>
                   </div>
 
                   <div className="flex space-x-3">
-                    <Button className="flex-1 ocean-gradient text-white hover:opacity-90">
+                    <Button 
+                      className="flex-1 nature-gradient text-white hover:opacity-90 font-semibold ripple-effect"
+                      onClick={() => setSelectedEvent(event)}
+                    >
                       Register Now
                     </Button>
-                    <Button variant="outline" size="icon">
-                      <ArrowRight className="h-4 w-4" />
+                    <Button variant="outline" size="icon" className="border-emerald-200 hover:bg-emerald-50">
+                      <ArrowRight className="h-4 w-4 text-emerald-600" />
                     </Button>
                   </div>
                 </CardContent>
@@ -179,64 +220,85 @@ const Events = () => {
       </section>
 
       {/* How to Join */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6 font-playfair text-gray-900">How to Join Our Events</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              <Card className="text-center p-6">
-                <div className="w-16 h-16 bg-ocean-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+      <section className="section-spacing bg-gradient-to-br from-slate-50 to-emerald-50">
+        <div className="container-custom">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16 slide-up">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">How to Join Our Events</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Getting involved is easy! Follow these simple steps to become part of our ocean conservation community.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 stagger-fade-in">
+              <Card className="text-center p-8 hover-lift card-glow bg-white border-0">
+                <div className="w-20 h-20 nature-gradient text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">
                   1
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Choose an Event</h3>
-                <p className="text-gray-600">Browse our upcoming events and find one that interests you.</p>
+                <h3 className="text-2xl font-bold mb-4 text-gray-900">Choose an Event</h3>
+                <p className="text-gray-600 leading-relaxed">Browse our upcoming events and find one that matches your interests and schedule.</p>
               </Card>
-              <Card className="text-center p-6">
-                <div className="w-16 h-16 bg-ocean-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+              <Card className="text-center p-8 hover-lift card-glow bg-white border-0">
+                <div className="w-20 h-20 nature-gradient text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">
                   2
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Register</h3>
-                <p className="text-gray-600">Click the register button and fill out the simple form.</p>
+                <h3 className="text-2xl font-bold mb-4 text-gray-900">Register Online</h3>
+                <p className="text-gray-600 leading-relaxed">Fill out our simple registration form with your details and preferences.</p>
               </Card>
-              <Card className="text-center p-6">
-                <div className="w-16 h-16 bg-ocean-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
+              <Card className="text-center p-8 hover-lift card-glow bg-white border-0">
+                <div className="w-20 h-20 nature-gradient text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">
                   3
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Show Up & Impact</h3>
-                <p className="text-gray-600">Arrive at the event location and start making a difference!</p>
+                <h3 className="text-2xl font-bold mb-4 text-gray-900">Show Up & Impact</h3>
+                <p className="text-gray-600 leading-relaxed">Arrive at the location and start making a real difference to our environment!</p>
               </Card>
             </div>
-            <div className="bg-gradient-to-br from-ocean-50 to-wave-50 p-8 rounded-xl">
-              <h3 className="text-2xl font-bold mb-4 text-gray-900">What to Bring</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                <ul className="space-y-2">
-                  <li className="flex items-center space-x-2">
-                    <span className="text-green-500">✓</span>
-                    <span>Water bottle (reusable)</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <span className="text-green-500">✓</span>
-                    <span>Sun protection (hat, sunscreen)</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <span className="text-green-500">✓</span>
-                    <span>Comfortable clothing</span>
-                  </li>
-                </ul>
-                <ul className="space-y-2">
-                  <li className="flex items-center space-x-2">
-                    <span className="text-green-500">✓</span>
-                    <span>Closed-toe shoes</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <span className="text-green-500">✓</span>
-                    <span>Positive attitude</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <span className="text-blue-500">ℹ</span>
-                    <span>We provide gloves & cleanup tools</span>
-                  </li>
-                </ul>
+            
+            <div className="glass-morphism rounded-3xl p-12">
+              <h3 className="text-3xl font-bold mb-8 text-gray-900 text-center">What to Bring</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <h4 className="text-xl font-semibold text-gray-800 mb-4">Essential Items</h4>
+                  <ul className="space-y-3">
+                    <li className="flex items-center space-x-3">
+                      <span className="text-emerald-500 text-xl">✓</span>
+                      <span>Reusable water bottle</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span className="text-emerald-500 text-xl">✓</span>
+                      <span>Sun protection (hat, sunscreen)</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span className="text-emerald-500 text-xl">✓</span>
+                      <span>Comfortable, weather-appropriate clothing</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span className="text-emerald-500 text-xl">✓</span>
+                      <span>Closed-toe shoes or sandals</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="space-y-4">
+                  <h4 className="text-xl font-semibold text-gray-800 mb-4">We Provide</h4>
+                  <ul className="space-y-3">
+                    <li className="flex items-center space-x-3">
+                      <span className="text-blue-500 text-xl">ℹ</span>
+                      <span>Cleanup gloves and tools</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span className="text-blue-500 text-xl">ℹ</span>
+                      <span>Waste collection bags</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span className="text-blue-500 text-xl">ℹ</span>
+                      <span>First aid kit and safety equipment</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <span className="text-blue-500 text-xl">ℹ</span>
+                      <span>Refreshments and certificates</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

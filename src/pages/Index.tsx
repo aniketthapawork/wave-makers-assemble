@@ -4,9 +4,10 @@ import MissionSection from '@/components/MissionSection';
 import ActivitiesSection from '@/components/ActivitiesSection';
 import ImpactSection from '@/components/ImpactSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
-import SocialMediaSection from '@/components/SocialMediaSection';
 import EducationalSection from '@/components/EducationalSection';
 import AuthenticPhotosSection from '@/components/AuthenticPhotosSection';
+import DynamicSocialSection from '@/components/DynamicSocialSection';
+import HashnodeBlogSection from '@/components/HashnodeBlogSection';
 
 const Index = () => {
   return (
@@ -16,7 +17,8 @@ const Index = () => {
       <AuthenticPhotosSection />
       <EducationalSection />
       <ImpactSection />
-      <SocialMediaSection />
+      <DynamicSocialSection />
+      <HashnodeBlogSection />
       <ActivitiesSection />
       <TestimonialsSection />
     </div>
