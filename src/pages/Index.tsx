@@ -8,19 +8,25 @@ import EducationalSection from '@/components/EducationalSection';
 import AuthenticPhotosSection from '@/components/AuthenticPhotosSection';
 import DynamicSocialSection from '@/components/DynamicSocialSection';
 import HashnodeBlogSection from '@/components/HashnodeBlogSection';
+import QuickStatsSection from '@/components/QuickStatsSection';
+import PartnersSection from '@/components/PartnersSection';
+import CallToActionSection from '@/components/CallToActionSection';
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       <HeroSection />
+      <QuickStatsSection />
       <MissionSection />
       <AuthenticPhotosSection />
       <EducationalSection />
       <ImpactSection />
+      <PartnersSection />
       <DynamicSocialSection />
       <HashnodeBlogSection />
       <ActivitiesSection />
       <TestimonialsSection />
+      <CallToActionSection />
     </div>
   );
 };
